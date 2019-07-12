@@ -1,40 +1,38 @@
-
-
 <% for (var i = 0; i < maxDepth; i++) {%>
 
 <template name="$$REMAX_CHILDREN<%= i %>">
-  <block wx:for="{{children}}" wx:key="">
+  <block wx:for="{{children}}" wx:key="id">
     <block wx:if="{{item.type === '$$REMAX_TYPE_TEXT'}}">{{item.text}}</block>
-    <template wx:else is="{{item.type}}<%= i + 1 %>" data="{{...item }}" />
+
+    <block wx:if="{{item.type === 'view'}}">
+      <view class="{{item.props.className}}">
+        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
+      </view>
+    </block>
+
+    <block wx:if="{{item.type === 'text'}}">
+      <text class="{{item.props.className}}">
+        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
+      </text>
+    </block>
+
+    <block wx:if="{{item.type === 'button'}}">
+      <button class="{{item.props.className}}" bindtap="{{item.props.onClick}}">
+        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
+      </button>
+    </block>
+
+    <block wx:if="{{item.type === 'image'}}">
+      <image class="{{item.props.className}}" src="{{item.props.src}}"></image>
+    </block>
+
+    <block wx:if="{{item.type === 'navigator'}}">
+      <navigator class="{{item.props.className}}" url="{{item.props.url}}">
+        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
+      </navigator>
+    </block>
   </block>
-</template>
 
-<template name="text<%= i %>">
-  <text class="{{props.className}} {{text}}">
-    <template is="$$REMAX_CHILDREN<%= i %>" data="{{ children: children }}" />
-  </text>
-</template>
-
-<template name="button<%= i %>">
-  <button class="{{props.className}}" bindtap="{{props.onClick}}">
-    <template is="$$REMAX_CHILDREN<%= i %>" data="{{ children: children }}" />
-  </button>
-</template>
-
-<template name="image<%= i %>">
-  <image class="{{props.className}}" src="{{props.src}}"></image>
-</template>
-
-<template name="navigator<%= i %>">
-  <navigator class="{{props.className}}" url="{{props.url}}">
-    <template is="$$REMAX_CHILDREN<%= i %>" data="{{ children: children }}" />
-  </navigator>
-</template>
-
-<template name="view<%= i %>">
-  <view class="{{props.className}}">
-    <template is="$$REMAX_CHILDREN<%= i %>" data="{{ children: children }}" />
-  </view>
 </template>
 
 <% }%>
