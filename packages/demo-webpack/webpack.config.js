@@ -9,7 +9,8 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 module.exports = {
   mode: nodeEnv,
   entry: {
-    'pages/index/index': path.resolve(__dirname, 'pages/index/index.js')
+    'pages/index/index': path.resolve(__dirname, 'pages/index/index.js'),
+    'pages/benchmark/index': path.resolve(__dirname, 'pages/benchmark/index.js')
   },
   output: {
     path: path.join(__dirname, 'dist'),
