@@ -7,7 +7,6 @@ const renderTemplate = (pathname, data = {}) => {
   return ejs.render(content, data);
 }
 
-
 class FardWebpackPlugin {
   constructor (options = {}) {
     this.options = options;

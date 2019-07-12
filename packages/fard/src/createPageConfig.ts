@@ -23,6 +23,9 @@ export default function createPageConfig(Page: React.ComponentType<any>) {
           () => {
             // @ts-ignore
             if (process.env.NODE_ENV !== 'production') {
+              wx.showToast({
+                title: `${new Date().getTime() - startTime}ms`
+              })
               console.log(`setData => 回调时间：${new Date().getTime() - startTime}ms`);
             }
           },
