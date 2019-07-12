@@ -6,7 +6,11 @@ Component({
     }
   },
   observers: {
-    'vdom.props.**': function () {
+    vdom: function () {
+      <%# FIXME: have not finished event handler %>
+      if (!this.data.vdom) {
+        return;
+      }
       const props = this.data.vdom.props
       for (let k in props) {
         if (typeof props[k] === 'function') {
