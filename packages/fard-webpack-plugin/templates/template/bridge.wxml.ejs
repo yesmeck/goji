@@ -39,3 +39,10 @@
 
 <% }%>
 
+<%# debug %>
+
+<wxs module="debug">
+module.exports.info = function (d) {
+  return JSON.stringify(d);
+}
+</wxs>
