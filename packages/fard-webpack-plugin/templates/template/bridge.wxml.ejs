@@ -4,29 +4,29 @@
   <block wx:for="{{children}}" wx:key="id">
     <block wx:if="{{item.type === '$$REMAX_TYPE_TEXT'}}">{{item.text}}</block>
 
-    <block wx:if="{{item.type === 'view'}}">
+    <block wx:elif="{{item.type === 'view'}}">
       <view class="{{item.props.className}}">
         <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
       </view>
     </block>
 
-    <block wx:if="{{item.type === 'text'}}">
+    <block wx:elif="{{item.type === 'text'}}">
       <text class="{{item.props.className}}">
         <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
       </text>
     </block>
 
-    <block wx:if="{{item.type === 'button'}}">
+    <block wx:elif="{{item.type === 'button'}}">
       <button class="{{item.props.className}}" bindtap="{{item.props.onClick}}">
         <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
       </button>
     </block>
 
-    <block wx:if="{{item.type === 'image'}}">
+    <block wx:elif="{{item.type === 'image'}}">
       <image class="{{item.props.className}}" src="{{item.props.src}}"></image>
     </block>
 
-    <block wx:if="{{item.type === 'navigator'}}">
+    <block wx:elif="{{item.type === 'navigator'}}">
       <navigator class="{{item.props.className}}" url="{{item.props.url}}">
         <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
       </navigator>
