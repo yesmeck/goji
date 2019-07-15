@@ -15,6 +15,7 @@ const ArrayDOM = ({ count }) => {
 function Counter () {
   const [count, setCount] = useState(2)
   const [showArrayDOM, setShowArrayDOM] = useState(false)
+  const [showText, setShowText] = useState(false)
 
   return (
     <view>
@@ -24,7 +25,9 @@ function Counter () {
         </button>
       ))}
       <button onClick={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
+      <button onClick={() => setShowText(!showText)}>Show text</button>
       {showArrayDOM && <ArrayDOM count={count} /> }
+      {showText && <text>hello, world!</text>}
     </view>
   )
 }

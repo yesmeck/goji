@@ -1,16 +1,15 @@
 import React from 'react';
 import createPageWrapper from './createPageWrapper';
 import { internalRender } from './render';
-import { REMAX_ROOT_BACKUP, REMAX_ROOT } from './constants';
+import { REMAX_ROOT_BACKUP } from './constants';
 import pure from './utils/pure';
-import debounce from './utils/debounce';
 
 export default function createPageConfig(Page: React.ComponentType<any>) {
   return {
     wrapper: null as any,
 
     onLoad(this: any, query: any) {
-      this.requestUpdate = debounce(() => {
+      this.requestUpdate = () => {
         const data = pure(this[REMAX_ROOT_BACKUP]);
 
         const startTime = new Date().getTime();
@@ -30,7 +29,7 @@ export default function createPageConfig(Page: React.ComponentType<any>) {
             }
           },
         );
-      }, 1000 / 60);
+      }
 
       const PageWrapper = createPageWrapper(Page, query);
 
