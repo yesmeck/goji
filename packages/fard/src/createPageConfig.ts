@@ -1,47 +1,41 @@
 import React from 'react';
 import createPageWrapper from './createPageWrapper';
 import { internalRender } from './render';
-import { REMAX_ROOT_BACKUP } from './constants';
-import pure from './utils/pure';
+import { Container } from './container';
+import { FiberRoot } from 'react-reconciler';
+
+interface PageThisType {
+  __container?: Container,
+  wrapper: any
+}
+
+function getPublicRootInstance(container: FiberRoot) {
+  var containerFiber = container.current;
+  if (!containerFiber.child) {
+    return null;
+  }
+  return containerFiber.child.stateNode;
+}
 
 export default function createPageConfig(Page: React.ComponentType<any>) {
   return {
     wrapper: null as any,
 
-    onLoad(this: any, query: any) {
-      this.requestUpdate = () => {
-        const data = pure(this[REMAX_ROOT_BACKUP]);
-
-        const startTime = new Date().getTime();
-
-        this.setData(
-          {
-            // FIXME:
-            vdom: data[0].children[0],
-          },
-          () => {
-            // @ts-ignore
-            if (process.env.NODE_ENV !== 'production') {
-              wx.showToast({
-                title: `${new Date().getTime() - startTime}ms`
-              })
-              console.log(`setData => 回调时间：${new Date().getTime() - startTime}ms`);
-            }
-          },
-        );
-      }
-
+    onLoad(this: PageThisType, query: any) {
       const PageWrapper = createPageWrapper(Page, query);
 
-      this.wrapper = internalRender(React.createElement(PageWrapper), this);
+      this.__container = new Container(this);
+
+      internalRender(React.createElement(PageWrapper), this.__container);
+
+      this.wrapper = getPublicRootInstance(this.__container._rootContainer!)
     },
 
-    onUnload(this: any) {
-      if (this.requestUpdate) {
-        this.requestUpdate.clear();
+    onUnload(this: PageThisType) {
+      if (this.__container) {
+        internalRender(null, this.__container);
       }
-      internalRender(null, this);
-      this.wrapper = null;
+      this.wrapper = undefined;
     },
 
     onShow() {

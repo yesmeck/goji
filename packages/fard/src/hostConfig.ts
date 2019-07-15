@@ -1,5 +1,6 @@
 import * as scheduler from 'scheduler';
 import { REMAX_ROOT_BACKUP, REMAX_METHOD, TYPE_TEXT } from './constants';
+import { Container } from './container';
 
 /**
  * rootContext Page 实例
@@ -14,13 +15,13 @@ const {
 
 let instanceCount = 0;
 
-function processProps(newProps: any, rootContext: any, id: number) {
+function processProps(newProps: any, rootContext: Container, id: number) {
   const props: any = {};
   for (const propKey of Object.keys(newProps)) {
     if (typeof newProps[propKey] === 'function') {
-      const contextKey = `${REMAX_METHOD}_${id}_${propKey}`;
-      rootContext[contextKey] = newProps[propKey];
-      props[propKey] = contextKey;
+      const handlerKey = `${REMAX_METHOD}_${id}_${propKey}`;
+      rootContext.registerEventHandler(handlerKey, newProps[propKey]);
+      props[propKey] = handlerKey;
     } else if (propKey === 'children') {
       // pass
     } else {
