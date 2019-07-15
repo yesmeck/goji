@@ -128,10 +128,8 @@ export const hostConfig: HostConfig<
     parent.children.push(child);
   },
 
-  // FIXME: should not ignore `beforeChild`
   insertBefore(parent, child, beforeChild) {
-    child.rootContext = parent.rootContext;
-    parent.children.unshift(child);
+    parent.children.splice(parent.children.indexOf(beforeChild), 0, child);
   },
 
   finalizeInitialChildren: () => {
