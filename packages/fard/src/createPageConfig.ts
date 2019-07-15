@@ -2,80 +2,67 @@ import React from 'react';
 import createPageWrapper from './createPageWrapper';
 import { internalRender } from './render';
 import { Container } from './container';
-import { FiberRoot } from 'react-reconciler';
 
 interface PageThisType {
   __container?: Container,
   wrapper: any
 }
 
-function getPublicRootInstance(container: FiberRoot) {
-  var containerFiber = container.current;
-  if (!containerFiber.child) {
-    return null;
-  }
-  return containerFiber.child.stateNode;
-}
-
 export default function createPageConfig(Page: React.ComponentType<any>) {
   return {
-    wrapper: null as any,
-
     onLoad(this: PageThisType, query: any) {
       const PageWrapper = createPageWrapper(Page, query);
 
       this.__container = new Container(this);
 
       internalRender(React.createElement(PageWrapper), this.__container);
-
-      this.wrapper = getPublicRootInstance(this.__container._rootContainer!)
     },
 
     onUnload(this: PageThisType) {
       if (this.__container) {
         internalRender(null, this.__container);
       }
-      this.wrapper = undefined;
+      this.__container = undefined;
     },
 
-    onShow() {
-      this.wrapper.onShow();
+    onShow(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onShow();
     },
 
-    onHide() {
-      this.wrapper.onHide();
+    onHide(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onHide();
     },
 
-    onPullDownRefresh() {
-      this.wrapper.onPullDownRefresh();
+    onPullDownRefresh(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPullDownRefresh();
     },
 
-    onReachBottom() {
-      this.wrapper.onReachBottom();
+    onReachBottom(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onReachBottom();
     },
 
-    onPageScroll() {
-      this.wrapper.onPageScroll();
+    onPageScroll(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPageScroll();
     },
 
-    onShareAppMessage() {
-      this.wrapper.onShareAppMessage();
+    onShareAppMessage(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onShareAppMessage();
     },
 
-    onTitleClick() {
-      this.wrapper.onTitleClick();
+    onTitleClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onTitleClick();
     },
 
-    onOptionMenuClick() {
-      this.wrapper.onOptionMenuClick();
+    onOptionMenuClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onOptionMenuClick();
     },
 
-    onPopMenuClick() {
-      this.wrapper.onPopMenuClick();
+    onPopMenuClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPopMenuClick();
     },
 
-    onPullIntercept() {
-      this.wrapper.onPullIntercept();
+    onPullIntercept(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPullIntercept();
     },
   };
 }

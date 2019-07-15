@@ -38,4 +38,13 @@ export class Container {
   registerEventHandler(handlerKey: string, handler: Function) {
     this.context[handlerKey] = handler;
   }
+
+  getPublicRootInstance() {
+    const container = this._rootContainer!;
+    var containerFiber = container.current;
+    if (!containerFiber.child) {
+      return null;
+    }
+    return containerFiber.child.stateNode;
+  }
 }

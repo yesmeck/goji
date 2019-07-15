@@ -20,6 +20,7 @@ function processProps(newProps: any, rootContext: Container, id: number) {
   for (const propKey of Object.keys(newProps)) {
     if (typeof newProps[propKey] === 'function') {
       const handlerKey = `${REMAX_METHOD}_${id}_${propKey}`;
+      // FIXME: memory leak here
       rootContext.registerEventHandler(handlerKey, newProps[propKey]);
       props[propKey] = handlerKey;
     } else if (propKey === 'children') {
