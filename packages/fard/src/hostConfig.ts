@@ -1,10 +1,7 @@
 import * as scheduler from 'scheduler';
 import { REMAX_ROOT_BACKUP, REMAX_METHOD, TYPE_TEXT } from './constants';
 import { Container } from './container';
-
-/**
- * rootContext Page 实例
- */
+import { HostConfig } from 'react-reconciler';
 
 const {
   unstable_scheduleCallback: scheduleDeferredCallback,
@@ -32,17 +29,43 @@ function processProps(newProps: any, rootContext: Container, id: number) {
   return props;
 }
 
-const rootHostContext = {};
 const childHostContext = {};
 
-export default {
+type Props = Object;
+export type Instance = {
+  type: string;
+  props: Props;
+  children: Array<Instance | TextInstance>;
+  rootContext: Container;
+  id: number;
+};
+type TextInstance = {
+  type: string,
+  text: string,
+  rootContext: Container,
+};
+
+export const hostConfig: HostConfig<
+  string,
+  Props,
+  Container,
+  Instance,
+  TextInstance,
+  unknown,
+  Instance | TextInstance,
+  {},
+  unknown,
+  unknown,
+  unknown,
+  unknown
+> = {
   now,
 
   getRootHostContext: () => {
-    return rootHostContext;
+    return {};
   },
 
-  shouldSetTextContent(type: any, props: any) {
+  shouldSetTextContent(type, props) {
     return false;
   },
 
@@ -58,12 +81,12 @@ export default {
     return true;
   },
 
-  commitTextUpdate(textInstance: any, oldText: string, newText: string) {
+  commitTextUpdate(textInstance, oldText, newText) {
     textInstance.text = newText;
     textInstance.rootContext.requestUpdate();
   },
 
-  createInstance: (type: string, newProps: any, rootContainerInstance: any, _currentHostContext: any) => {
+  createInstance(type, newProps, rootContainerInstance) {
     const rootContext = rootContainerInstance;
     const id = instanceCount;
     instanceCount += 1;
@@ -71,7 +94,7 @@ export default {
     const props = processProps(newProps, rootContext, id);
 
     const ins = {
-      type: type === 'div' ? 'view' : type,
+      type,
       props,
       children: [],
       rootContext,
@@ -81,30 +104,32 @@ export default {
     return ins;
   },
 
-  createTextInstance(text: string) {
+  createTextInstance(text, rootContainerInstance) {
     return {
       type: TYPE_TEXT,
       text,
+      rootContext: rootContainerInstance
     };
   },
 
-  commitUpdate(targetIns: any, updatePayload: any, type: string, oldProps: any, newProps: any) {
+  commitUpdate(targetIns, updatePayload, type, oldProps, newProps) {
     const props = processProps(newProps, targetIns.rootContext, targetIns.id);
     targetIns.props = props;
     targetIns.rootContext.requestUpdate();
   },
 
-  appendInitialChild: (parent: any, child: any) => {
+  appendInitialChild: (parent, child) => {
     child.rootContext = parent.rootContext;
     parent.children.push(child);
   },
 
-  appendChild(parent: any, child: any) {
+  appendChild(parent, child) {
     child.rootContext = parent.rootContext;
     parent.children.push(child);
   },
 
-  insertBefore(parent: any, child: any) {
+  // FIXME: should not ignore `beforeChild`
+  insertBefore(parent, child, beforeChild) {
     child.rootContext = parent.rootContext;
     parent.children.unshift(child);
   },
@@ -115,8 +140,9 @@ export default {
 
   supportsMutation: true,
 
-  appendChildToContainer: (_parent: Container, child: any) => {
+  appendChildToContainer: (_parent, child) => {
     let parent: any = null;
+    // FIXME: what about else ?
     if (_parent.__rootContainer) {
       // append to root
       parent = {
@@ -128,17 +154,17 @@ export default {
 
     parent.children.push(child);
 
-    child.rootContext[REMAX_ROOT_BACKUP] = child.rootContext[REMAX_ROOT_BACKUP] || [];
     child.rootContext[REMAX_ROOT_BACKUP].push(parent);
     child.rootContext.requestUpdate();
   },
 
-  removeChild(parentInstance: any, child: any) {
+  removeChild(parentInstance, child) {
     parentInstance.children.splice(parentInstance.children.indexOf(child), 1);
   },
 
   removeChildFromContainer() {},
 
+  // @ts-ignore
   schedulePassiveEffects: scheduleDeferredCallback,
   cancelPassiveEffects: cancelDeferredCallback,
   shouldYield,

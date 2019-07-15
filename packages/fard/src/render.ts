@@ -1,9 +1,9 @@
 import { ReactElement } from 'react';
 import ReactReconciler from 'react-reconciler';
-import hostConfig from './hostConfig';
+import { hostConfig } from './hostConfig';
 import { Container } from './container';
 
-const ReactReconcilerInst = ReactReconciler(hostConfig as any);
+const ReactReconcilerInst = ReactReconciler(hostConfig);
 
 export function internalRender(rootElement: ReactElement | null, container: Container) {
   // Create a root Container if it doesnt exist
