@@ -1,13 +1,14 @@
 import { REMAX_ROOT_BACKUP } from './constants';
 import pure from './utils/pure';
 import { FiberRoot } from 'react-reconciler';
+import { Instance } from './hostConfig';
 
 export class Container {
   constructor(context) {
     this.__context = context;
   }
 
-  public [REMAX_ROOT_BACKUP]: null;
+  public [REMAX_ROOT_BACKUP]: Array<Instance> = [];
 
   private __context;
 
