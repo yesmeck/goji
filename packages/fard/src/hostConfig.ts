@@ -115,9 +115,9 @@ export default {
 
   supportsMutation: true,
 
-  appendChildToContainer: (_parent: any, child: any) => {
+  appendChildToContainer: (_parent: Container, child: any) => {
     let parent: any = null;
-    if (_parent._rootContainer) {
+    if (_parent.__rootContainer) {
       // append to root
       parent = {
         type: 'root',

@@ -4,21 +4,21 @@ import { FiberRoot } from 'react-reconciler';
 
 export class Container {
   constructor(context) {
-    this.context = context;
+    this.__context = context;
   }
 
   public [REMAX_ROOT_BACKUP]: null;
 
-  private context;
+  private __context;
 
-  public _rootContainer?: FiberRoot;
+  public __rootContainer?: FiberRoot;
 
   requestUpdate() {
     const data = pure(this[REMAX_ROOT_BACKUP]);
 
     const startTime = new Date().getTime();
 
-    this.context.setData(
+    this.__context.setData(
       {
         // FIXME:
         vdom: data[0].children[0],
@@ -36,11 +36,11 @@ export class Container {
   }
 
   registerEventHandler(handlerKey: string, handler: Function) {
-    this.context[handlerKey] = handler;
+    this.__context[handlerKey] = handler;
   }
 
   getPublicRootInstance() {
-    const container = this._rootContainer!;
+    const container = this.__rootContainer!;
     var containerFiber = container.current;
     if (!containerFiber.child) {
       return null;
