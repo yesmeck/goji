@@ -119,12 +119,10 @@ export const hostConfig: HostConfig<
   },
 
   appendInitialChild: (parent, child) => {
-    child.rootContext = parent.rootContext;
     parent.children.push(child);
   },
 
   appendChild(parent, child) {
-    child.rootContext = parent.rootContext;
     parent.children.push(child);
   },
 
