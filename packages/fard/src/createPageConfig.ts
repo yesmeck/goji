@@ -1,87 +1,68 @@
 import React from 'react';
 import createPageWrapper from './createPageWrapper';
 import { internalRender } from './render';
-import { REMAX_ROOT_BACKUP } from './constants';
-import pure from './utils/pure';
+import { Container } from './container';
+
+interface PageThisType {
+  __container?: Container,
+  wrapper: any
+}
 
 export default function createPageConfig(Page: React.ComponentType<any>) {
   return {
-    wrapper: null as any,
-
-    onLoad(this: any, query: any) {
-      this.requestUpdate = () => {
-        const data = pure(this[REMAX_ROOT_BACKUP]);
-
-        const startTime = new Date().getTime();
-
-        this.setData(
-          {
-            // FIXME:
-            vdom: data[0].children[0],
-          },
-          () => {
-            // @ts-ignore
-            if (process.env.NODE_ENV !== 'production') {
-              wx.showToast({
-                title: `${new Date().getTime() - startTime}ms`
-              })
-              console.log(`setData => 回调时间：${new Date().getTime() - startTime}ms`);
-            }
-          },
-        );
-      }
-
+    onLoad(this: PageThisType, query: any) {
       const PageWrapper = createPageWrapper(Page, query);
 
-      this.wrapper = internalRender(React.createElement(PageWrapper), this);
+      this.__container = new Container(this);
+
+      internalRender(React.createElement(PageWrapper), this.__container);
     },
 
-    onUnload(this: any) {
-      if (this.requestUpdate) {
-        this.requestUpdate.clear();
+    onUnload(this: PageThisType) {
+      if (this.__container) {
+        internalRender(null, this.__container);
       }
-      internalRender(null, this);
-      this.wrapper = null;
+      this.__container = undefined;
     },
 
-    onShow() {
-      this.wrapper.onShow();
+    onShow(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onShow();
     },
 
-    onHide() {
-      this.wrapper.onHide();
+    onHide(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onHide();
     },
 
-    onPullDownRefresh() {
-      this.wrapper.onPullDownRefresh();
+    onPullDownRefresh(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPullDownRefresh();
     },
 
-    onReachBottom() {
-      this.wrapper.onReachBottom();
+    onReachBottom(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onReachBottom();
     },
 
-    onPageScroll() {
-      this.wrapper.onPageScroll();
+    onPageScroll(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPageScroll();
     },
 
-    onShareAppMessage() {
-      this.wrapper.onShareAppMessage();
+    onShareAppMessage(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onShareAppMessage();
     },
 
-    onTitleClick() {
-      this.wrapper.onTitleClick();
+    onTitleClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onTitleClick();
     },
 
-    onOptionMenuClick() {
-      this.wrapper.onOptionMenuClick();
+    onOptionMenuClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onOptionMenuClick();
     },
 
-    onPopMenuClick() {
-      this.wrapper.onPopMenuClick();
+    onPopMenuClick(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPopMenuClick();
     },
 
-    onPullIntercept() {
-      this.wrapper.onPullIntercept();
+    onPullIntercept(this: PageThisType) {
+      this.__container!.getPublicRootInstance().onPullIntercept();
     },
   };
 }
