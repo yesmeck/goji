@@ -20,12 +20,12 @@ function Counter () {
   return (
     <view>
       {[1000, 2000, 4000, 8000].map(c => (
-        <button class='btn' onClick={() => setCount(c)} key={c}>
+        <button class='btn' onTap={() => setCount(c)} key={c}>
           {c}
         </button>
       ))}
-      <button onClick={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
-      <button onClick={() => setShowText(!showText)}>Show text</button>
+      <button onTap={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
+      <button onTap={() => setShowText(!showText)}>Show text</button>
       {showArrayDOM && <ArrayDOM count={count} /> }
       {showText && <text>hello, world!</text>}
     </view>
