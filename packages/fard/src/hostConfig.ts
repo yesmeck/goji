@@ -54,7 +54,7 @@ export const hostConfig: HostConfig<
   unknown,
   Instance | TextInstance,
   {},
-  unknown,
+  boolean,
   unknown,
   unknown,
   unknown
@@ -78,6 +78,7 @@ export const hostConfig: HostConfig<
   },
 
   prepareUpdate() {
+    // FIXME: should use this hook correctly
     return true;
   },
 

@@ -14,7 +14,8 @@ export class Container {
 
   public __rootContainer?: FiberRoot;
 
-  requestUpdate() {
+  private applyUpdate() {
+    this.inQueue = false;
     const data = pure(this[REMAX_ROOT_BACKUP]);
 
     const startTime = new Date().getTime();
@@ -34,6 +35,16 @@ export class Container {
         }
       },
     );
+  }
+
+  inQueue = false;
+
+  requestUpdate() {
+    if (this.inQueue) {
+      return;
+    }
+    this.inQueue = true;
+    Promise.resolve().then(() => this.applyUpdate());
   }
 
   registerEventHandler(handlerKey: string, handler: Function) {
