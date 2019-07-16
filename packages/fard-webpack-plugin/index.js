@@ -1,10 +1,31 @@
 const ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
+const { BUILD_IN_COMPONENTS } = require('./components');
+const camelCase = require('lodash/camelCase');
 
 const renderTemplate = (pathname, data = {}) => {
   const content = fs.readFileSync(path.resolve(__dirname, pathname)).toString();
   return ejs.render(content, data);
+}
+
+const buildComponentsData = () => {
+  const components = BUILD_IN_COMPONENTS.map(component => ({
+    ...component,
+    props: undefined,
+    events: undefined,
+    attributes: [
+      ...component.props.map(propsName => ({
+        name: propsName,
+        value: camelCase(propsName),
+      })),
+      ...component.events.map(eventName => ({
+        name: `bind${eventName}`,
+        value: camelCase(`on-${eventName}`),
+      }))
+    ]
+  }))
+  return components;
 }
 
 class FardWebpackPlugin {
@@ -56,6 +77,7 @@ class FardWebpackPlugin {
         compiler.hooks.emit.tapAsync('FardWebpackPlugin', (compilation, cb) => {
           const bridgeWxml = renderTemplate('./templates/template/bridge.wxml.ejs', {
             maxDepth: this.options.maxDepth || 10,
+            components: buildComponentsData(),
           });
           const itemWxml = renderTemplate('./templates/template/item.wxml.ejs');
           // 生成 bridge.wxml

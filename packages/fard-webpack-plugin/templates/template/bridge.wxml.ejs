@@ -4,33 +4,26 @@
   <block wx:for="{{children}}" wx:key="id">
     <block wx:if="{{item.type === '$$REMAX_TYPE_TEXT'}}">{{item.text}}</block>
 
-    <block wx:elif="{{item.type === 'view'}}">
+    <%# FIXME: this block reduce more than 70% render time with 8k <view> nodes %>
+    <block wx:elif="{{item.type === 'view' && !item.props.onTap}}">
       <view class="{{item.props.className}}">
         <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
       </view>
     </block>
 
-    <block wx:elif="{{item.type === 'text'}}">
-      <text class="{{item.props.className}}">
-        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
-      </text>
-    </block>
+    <% for (var component of components) {%>
+      <block wx:elif="{{item.type === '<%= component.name %>'}}">
+        <<%= component.name %>
+          class="{{item.props.className}}"
+          <% for (var attribute of component.attributes) {%>
+          <%= attribute.name %>="{{item.props.<%= attribute.value %>}}"
+          <% } %>
+        >
+          <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
+        </<%= component.name %>>
+      </block>
+    <% } %>
 
-    <block wx:elif="{{item.type === 'button'}}">
-      <button class="{{item.props.className}}" bindtap="{{item.props.onClick}}">
-        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
-      </button>
-    </block>
-
-    <block wx:elif="{{item.type === 'image'}}">
-      <image class="{{item.props.className}}" src="{{item.props.src}}"></image>
-    </block>
-
-    <block wx:elif="{{item.type === 'navigator'}}">
-      <navigator class="{{item.props.className}}" url="{{item.props.url}}">
-        <template is="$$REMAX_CHILDREN<%= i + 1 %>" data="{{ children: item.children }}" />
-      </navigator>
-    </block>
   </block>
 
 </template>
