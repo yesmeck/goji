@@ -34,7 +34,7 @@ const addCommonEvents = components => {
 };
 
 // docs: https://developers.weixin.qq.com/miniprogram/en/dev/component/
-module.exports.BUILD_IN_COMPONENTS = sortComponents(
+export const BUILD_IN_COMPONENTS = sortComponents(
   addCommonEvents([
     // View Container
     {

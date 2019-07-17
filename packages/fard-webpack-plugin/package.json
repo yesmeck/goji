@@ -2,16 +2,23 @@
   "name": "fard-webpack-plugin",
   "version": "0.1.1",
   "description": "Fard webpack plugin",
-  "main": "plugin.js",
+  "main": "dist/index.js",
   "scripts": {
+    "start": "tsc --declaration --watch",
+    "build": "tsc --declaration",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "demo": "(cd demo && webpack)"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/ejs": "^2.6.3",
+    "@types/lodash": "^4.14.136",
+    "@types/node": "^12.6.6",
+    "@types/webpack": "^4.4.35",
     "ejs": "^2.6.2",
+    "typescript": "^3.5.3",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5"
   },
@@ -93,6 +100,7 @@
     "diffie-hellman": "^5.0.3",
     "domain-browser": "^1.2.0",
     "duplexify": "^3.7.1",
+    "ejs": "^2.6.2",
     "elliptic": "^6.4.1",
     "emoji-regex": "^7.0.3",
     "emojis-list": "^2.1.0",

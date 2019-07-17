@@ -1,5 +1,5 @@
 const path = require('path')
-const FardWebpackPlugin = require('.')
+const FardWebpackPlugin = require('..')
 
 module.exports = {
   mode: 'development',
