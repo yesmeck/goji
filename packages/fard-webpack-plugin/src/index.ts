@@ -1,8 +1,9 @@
-const ejs = require('ejs');
-const fs = require('fs');
-const path = require('path');
-const { BUILD_IN_COMPONENTS } = require('./components');
-const camelCase = require('lodash/camelCase');
+import ejs from 'ejs';
+import fs from 'fs';
+import path from 'path';
+import camelCase from 'lodash/camelCase';
+import webpack from 'webpack';
+import { BUILD_IN_COMPONENTS } from './components';
 
 const renderTemplate = (pathname, data = {}) => {
   const content = fs.readFileSync(path.resolve(__dirname, pathname)).toString();
@@ -28,22 +29,40 @@ const buildComponentsData = () => {
   return components;
 }
 
-class FardWebpackPlugin {
-  constructor (options = {}) {
-    this.options = options;
+interface Options {
+  bridgeType: 'template' | 'component',
+  maxDepth: number,
+  target: 'wechat' | 'baidu' | 'alipay' | 'toutiao',
+}
+
+const DEFAULT_OPTIONS: Options = {
+  bridgeType: 'template',
+  maxDepth: 10,
+  target: 'wechat',
+}
+
+class FardWebpackPlugin implements webpack.Plugin {
+
+  options: Options;
+
+  constructor (options: Partial<Options> = {}) {
+    this.options = {
+      ...DEFAULT_OPTIONS,
+      ...options,
+    };
   }
 
-  apply (compiler) {
-    const bridgeType = this.options.bridgeType || 'template';
+  apply (compiler: webpack.Compiler) {
+    const bridgeType = this.options.bridgeType;
     switch (bridgeType) {
       case 'component':{
         compiler.hooks.emit.tapAsync('FardWebpackPlugin', (compilation, cb) => {
-          const bridgeJson = renderTemplate('./templates/component/block.json.ejs');
-          const bridgeJs = renderTemplate('./templates/component/block.js.ejs');
-          const bridgeWxml = renderTemplate('./templates/component/block.wxml.ejs');
+          const bridgeJson = renderTemplate('../templates/component/block.json.ejs');
+          const bridgeJs = renderTemplate('../templates/component/block.js.ejs');
+          const bridgeWxml = renderTemplate('../templates/component/block.wxml.ejs');
 
-          const wxml = renderTemplate('./templates/component/item.wxml.ejs');
-          const json = renderTemplate('./templates/component/item.json.ejs');
+          const wxml = renderTemplate('../templates/component/item.wxml.ejs');
+          const json = renderTemplate('../templates/component/item.json.ejs');
 
           compilation.assets['block/block.wxml'] = {
             source: () => bridgeWxml,
@@ -75,12 +94,12 @@ class FardWebpackPlugin {
       }
       case 'template': {
         compiler.hooks.emit.tapAsync('FardWebpackPlugin', (compilation, cb) => {
-          const maxDepth = this.options.maxDepth || 10;
+          const maxDepth = this.options.maxDepth;
           for (let depth = 0; depth < maxDepth; depth++) {
-            const bridgeWxml = renderTemplate('./templates/template/children.wxml.ejs', {
+            const bridgeWxml = renderTemplate('../templates/template/children.wxml.ejs', {
               depth,
             });
-            const componentsWxml = renderTemplate('./templates/template/components.wxml.ejs', {
+            const componentsWxml = renderTemplate('../templates/template/components.wxml.ejs', {
               depth,
               components: buildComponentsData(),
             });
@@ -95,7 +114,7 @@ class FardWebpackPlugin {
               size: () => componentsWxml.length,
             }
           }
-          const itemWxml = renderTemplate('./templates/template/item.wxml.ejs');
+          const itemWxml = renderTemplate('../templates/template/item.wxml.ejs');
           //生成普通的 wxml
           compilation.chunks.forEach((item) => {
             compilation.assets[`${item.name}.wxml`] = {
