@@ -75,16 +75,27 @@ class FardWebpackPlugin {
       }
       case 'template': {
         compiler.hooks.emit.tapAsync('FardWebpackPlugin', (compilation, cb) => {
-          const bridgeWxml = renderTemplate('./templates/template/bridge.wxml.ejs', {
-            maxDepth: this.options.maxDepth || 10,
-            components: buildComponentsData(),
-          });
-          const itemWxml = renderTemplate('./templates/template/item.wxml.ejs');
-          // 生成 bridge.wxml
-          compilation.assets['bridge.wxml'] = {
-            source: () => bridgeWxml,
-            size: () => bridgeWxml.length,
+          const maxDepth = this.options.maxDepth || 10;
+          for (let depth = 0; depth < maxDepth; depth++) {
+            const bridgeWxml = renderTemplate('./templates/template/children.wxml.ejs', {
+              depth,
+            });
+            const componentsWxml = renderTemplate('./templates/template/components.wxml.ejs', {
+              depth,
+              components: buildComponentsData(),
+            });
+            // 生成 bridge.wxml
+            compilation.assets[`bridge/children${depth}.wxml`] = {
+              source: () => bridgeWxml,
+              size: () => bridgeWxml.length,
+            }
+            // 生成 components.wxml
+            compilation.assets[`bridge/components${depth}.wxml`] = {
+              source: () => componentsWxml,
+              size: () => componentsWxml.length,
+            }
           }
+          const itemWxml = renderTemplate('./templates/template/item.wxml.ejs');
           //生成普通的 wxml
           compilation.chunks.forEach((item) => {
             compilation.assets[`${item.name}.wxml`] = {
