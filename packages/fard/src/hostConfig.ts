@@ -1,5 +1,5 @@
 import * as scheduler from 'scheduler';
-import { REMAX_ROOT_BACKUP, REMAX_METHOD, TYPE_TEXT } from './constants';
+import { REMAX_ROOT_VDOM, REMAX_METHOD, TYPE_TEXT } from './constants';
 import { Container } from './container';
 import { HostConfig } from 'react-reconciler';
 
@@ -29,9 +29,8 @@ function processProps(newProps: any, rootContext: Container, id: number) {
   return props;
 }
 
-const childHostContext = {};
-
 type Props = Object;
+
 export type Instance = {
   type: string;
   props: Props;
@@ -39,7 +38,8 @@ export type Instance = {
   rootContext: Container;
   id: number;
 };
-type TextInstance = {
+
+export type TextInstance = {
   type: string,
   text: string,
   rootContext: Container,
@@ -74,7 +74,7 @@ export const hostConfig: HostConfig<
   resetAfterCommit: () => {},
 
   getChildHostContext: () => {
-    return childHostContext;
+    return {};
   },
 
   prepareUpdate() {
@@ -137,29 +137,18 @@ export const hostConfig: HostConfig<
 
   supportsMutation: true,
 
-  appendChildToContainer: (_parent, child) => {
-    let parent: any = null;
-    // FIXME: what about else ?
-    if (_parent.__rootContainer) {
-      // append to root
-      parent = {
-        type: 'root',
-        children: [],
-        rootContext: _parent,
-      };
-    }
-
-    parent.children.push(child);
-
-    child.rootContext[REMAX_ROOT_BACKUP].push(parent);
-    child.rootContext.requestUpdate();
+  appendChildToContainer(container, child) {
+    container[REMAX_ROOT_VDOM].push(child);
+    container.requestUpdate();
   },
 
   removeChild(parentInstance, child) {
     parentInstance.children.splice(parentInstance.children.indexOf(child), 1);
   },
 
-  removeChildFromContainer() {},
+  removeChildFromContainer(container, child) {
+    container[REMAX_ROOT_VDOM].splice(container[REMAX_ROOT_VDOM].indexOf(child), 1);
+  },
 
   // @ts-ignore
   schedulePassiveEffects: scheduleDeferredCallback,

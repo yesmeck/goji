@@ -1,14 +1,14 @@
-import { REMAX_ROOT_BACKUP } from './constants';
+import { REMAX_ROOT_VDOM } from './constants';
 import pure from './utils/pure';
 import { FiberRoot } from 'react-reconciler';
-import { Instance } from './hostConfig';
+import { Instance, TextInstance } from './hostConfig';
 
 export class Container {
   constructor(context) {
     this.__context = context;
   }
 
-  public [REMAX_ROOT_BACKUP]: Array<Instance> = [];
+  public [REMAX_ROOT_VDOM]: Array<Instance | TextInstance> = [];
 
   private __context;
 
@@ -16,14 +16,13 @@ export class Container {
 
   private applyUpdate() {
     this.inQueue = false;
-    const data = pure(this[REMAX_ROOT_BACKUP]);
+    const children = pure(this[REMAX_ROOT_VDOM]);
 
     const startTime = new Date().getTime();
 
     this.__context.setData(
       {
-        // FIXME:
-        vdom: data[0].children[0],
+        children
       },
       () => {
         // @ts-ignore

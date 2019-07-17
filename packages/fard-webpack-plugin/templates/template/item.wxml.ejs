@@ -1,2 +1,5 @@
-<import src="../../bridge/children0.wxml"/>
-<template is="$$REMAX_CHILDREN0" wx:if="{{vdom.type}}" data="{{ children: [vdom] }}" />
+<import src="../../bridge/components0.wxml"/>
+
+<block wx:for="{{children}}" wx:key="id">
+  <template is="$$REMAX_COMPONENT0" data="{{ ...item}}" />
+</block>

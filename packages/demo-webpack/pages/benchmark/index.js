@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { render, unstable_setBridgreType } from 'fard'
 import './index.styl'
 
@@ -18,7 +18,7 @@ function Counter () {
   const [showText, setShowText] = useState(false)
 
   return (
-    <view>
+    <Fragment>
       {[1000, 2000, 4000, 8000].map(c => (
         <button class='btn' onTap={() => setCount(c)} key={c}>
           {c}
@@ -28,7 +28,7 @@ function Counter () {
       <button onTap={() => setShowText(!showText)}>Show text</button>
       {showArrayDOM && <ArrayDOM count={count} /> }
       {showText && <text>hello, world!</text>}
-    </view>
+    </Fragment>
   )
 }
 

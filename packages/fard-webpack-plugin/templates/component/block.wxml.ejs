@@ -2,15 +2,19 @@
   {{vdom.text}}
 </block>
 
+<block wx:elif="{{vdom.type === 'root'}}">
+  <fard wx:for="{{vdom.children}}" wx:key="id" vdom="{{item}}" />
+</block>
+
 <block wx:elif="{{vdom.type === 'view'}}">
   <view class="{{vdom.props.className}}" bindtap="{{vdom.props.onClick||''}}">
-    <fard wx:for="{{vdom.children}}" wx:key="" vdom="{{item}}" />
+    <fard wx:for="{{vdom.children}}" wx:key="id" vdom="{{item}}" />
   </view>
 </block>
 
 <block wx:elif="{{vdom.type === 'text'}}">
   <text class="{{vdom.props.className}}" bindtap="{{vdom.props.onClick||''}}">
-    <%# <fard wx:for="{{vdom.children}}" wx:key="" vdom="{{item}}" /> %>
+    <%# <fard wx:for="{{vdom.children}}" wx:key="id" vdom="{{item}}" /> %>
     {{vdom.children[0].text}}
   </text>
 </block>
@@ -18,7 +22,7 @@
 
 <block wx:elif="{{vdom.type === 'button'}}">
   <button class="{{vdom.props.className}}" bindtap="{{vdom.props.onClick||''}}">
-    <fard wx:for="{{vdom.children}}" wx:key="" vdom="{{item}}" />
+    <fard wx:for="{{vdom.children}}" wx:key="id" vdom="{{item}}" />
   </button>
 </block>
 
