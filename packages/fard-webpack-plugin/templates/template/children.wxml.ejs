@@ -1,0 +1,5 @@
+<template name="$$REMAX_CHILDREN<%= depth %>">
+  <block wx:for="{{children}}" wx:key="id">
+    <include src="./components<%= depth + 1 %>.wxml" />
+  </block>
+</template>
