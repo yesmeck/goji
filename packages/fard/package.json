@@ -7,8 +7,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "tsc --declaration --watch",
-    "build": "tsc --declaration"
+    "prebuild": "npm run clean",
+    "clean": "rimraf dist",
+    "start": "tsc -p . -watch",
+    "build": "tsc -p ."
   },
   "devDependencies": {
     "@types/react": "^16.8.23",
@@ -16,6 +18,7 @@
     "@types/scheduler": "^0.12.1",
     "@types/weixin-app": "^2.2.27",
     "react": "^16.8.6",
+    "rimraf": "^2.6.3",
     "typescript": "^3.5.3"
   },
   "dependencies": {

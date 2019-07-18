@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "declaration": true,
     "module": "esnext",
+    "sourceMap": true,
     "outDir": "dist",
     "strict": true,
     "noImplicitAny": false,
