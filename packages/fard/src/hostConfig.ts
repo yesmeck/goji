@@ -34,7 +34,7 @@ type Props = Object;
 export type Instance = {
   type: string;
   props: Props;
-  children: Array<Instance | TextInstance>;
+  children_: Array<Instance | TextInstance>;
   rootContext: Container;
   id: number;
 };
@@ -97,7 +97,7 @@ export const hostConfig: HostConfig<
     const ins = {
       type,
       props,
-      children: [],
+      children_: [],
       rootContext,
       id,
     };
@@ -120,15 +120,19 @@ export const hostConfig: HostConfig<
   },
 
   appendInitialChild: (parent, child) => {
-    parent.children.push(child);
+    parent.children_.push(child);
   },
 
   appendChild(parent, child) {
-    parent.children.push(child);
+    parent.children_.push(child);
   },
 
   insertBefore(parent, child, beforeChild) {
-    parent.children.splice(parent.children.indexOf(beforeChild), 0, child);
+    parent.children_.splice(parent.children_.indexOf(beforeChild), 0, child);
+  },
+
+  insertInContainerBefore(container, child, beforeChild) {
+    container[REMAX_ROOT_VDOM].splice(container[REMAX_ROOT_VDOM].indexOf(beforeChild), 0, child);
   },
 
   finalizeInitialChildren: () => {
@@ -143,7 +147,7 @@ export const hostConfig: HostConfig<
   },
 
   removeChild(parentInstance, child) {
-    parentInstance.children.splice(parentInstance.children.indexOf(child), 1);
+    parentInstance.children_.splice(parentInstance.children_.indexOf(child), 1);
   },
 
   removeChildFromContainer(container, child) {

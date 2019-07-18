@@ -1,5 +1,5 @@
 <import src="../../bridge/components0.wxml"/>
 
-<block wx:for="{{children}}" wx:key="id">
-  <template is="$$REMAX_COMPONENT0" data="{{ ...item}}" />
+<block wx:for="{{children_}}" wx:key="id">
+  <template is="$$REMAX_COMPONENT0" data="{{ type: item.type, props: item.props, children_: item.children_ }}" />
 </block>

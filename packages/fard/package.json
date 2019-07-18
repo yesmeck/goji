@@ -10,13 +10,15 @@
     "prebuild": "npm run clean",
     "clean": "rimraf dist",
     "start": "tsc -p . -watch",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "test": "jest --passWithNoTests"
   },
   "devDependencies": {
     "@types/react": "^16.8.23",
     "@types/react-reconciler": "^0.18.0",
     "@types/scheduler": "^0.12.1",
     "@types/weixin-app": "^2.2.27",
+    "jest": "^24.8.0",
     "react": "^16.8.6",
     "rimraf": "^2.6.3",
     "typescript": "^3.5.3"
