@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import { BUILD_IN_COMPONENTS } from './components';
 import { renderTemplate } from './render';
 
-const buildComponentsData = () => {
+const buildComponentsData = (target: Options['target']) => {
   const components = BUILD_IN_COMPONENTS.map(component => ({
     ...component,
     props: undefined,
@@ -14,7 +14,7 @@ const buildComponentsData = () => {
         value: camelCase(propsName),
       })),
       ...component.events.map(eventName => ({
-        name: `bind${eventName}`,
+        name: target === 'alipay' ? camelCase(`on-${eventName}`) : `bind${eventName}`,
         value: camelCase(`on-${eventName}`),
       }))
     ]
@@ -49,6 +49,10 @@ class FardWebpackPlugin implements webpack.Plugin {
     return renderTemplate(this.options.target, pathname, data);
   }
 
+  buildComponentsData() {
+    return buildComponentsData(this.options.target);
+  }
+
   transformExt(ext: string) {
     switch (this.options.target) {
       case 'wechat':
@@ -62,6 +66,15 @@ class FardWebpackPlugin implements webpack.Plugin {
           default:
             return ext;
         }
+      case 'alipay':
+          switch (ext) {
+            case 'wxml':
+              return 'axml';
+            case 'wxss':
+              return 'acss';
+            default:
+              return ext;
+          }
       default:
         return ext;
     }
@@ -118,7 +131,8 @@ class FardWebpackPlugin implements webpack.Plugin {
               });
               const componentsWxml = await this.renderTemplate('../templates/template/components.wxml.ejs', {
                 depth,
-                components: buildComponentsData(),
+                componentsDepth: depth + 1,
+                components: this.buildComponentsData(),
               });
               // 生成 bridge.wxml
               compilation.assets[`bridge/children${depth}.${this.transformExt('wxml')}`] = {
@@ -131,15 +145,17 @@ class FardWebpackPlugin implements webpack.Plugin {
                 size: () => componentsWxml.length,
               }
             }
-          } else if (this.options.target === 'baidu') {
+          } else if (this.options.target === 'baidu' || this.options.target === 'alipay') {
             const bridgeWxml = await this.renderTemplate('../templates/template/children.wxml.ejs', {
               depth: 0,
               componentsDepth: 0,
-              components: buildComponentsData(),
+              components: this.buildComponentsData(),
             });
             const componentsWxml = await this.renderTemplate('../templates/template/components.wxml.ejs', {
               depth: 0,
-              components: buildComponentsData(),
+              componentsDepth: 0,
+              components: this.buildComponentsData(),
+              inlineChildrenRender: this.options.target === 'alipay',
             });
             // 生成 bridge.wxml
             compilation.assets[`bridge/children0.${this.transformExt('wxml')}`] = {

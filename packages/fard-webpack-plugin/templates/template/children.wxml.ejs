@@ -1,5 +1,5 @@
 <import src="./components<%= componentsDepth %>.wxml" />
 
-<block wx:for="{{children}}" wx:key="id">
-  <template is="$$REMAX_COMPONENT<%= componentsDepth %>" data="{{...item}}" />
+<block wx:for="{{children_}}" wx:key="id">
+  <template is="$$REMAX_COMPONENT<%= componentsDepth %>" data="{{ ...item }}" />
 </block>

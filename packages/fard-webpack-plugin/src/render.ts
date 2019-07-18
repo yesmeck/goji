@@ -39,7 +39,15 @@ export const renderTemplate = async (target: Options['target'], pathname: string
           return result;
       }
     }
-
+    case 'alipay':
+      switch (type) {
+        case 'wxml':
+          return result.replace(/wx:/g, 'a:').replace(/\.wxml/g, '.axml');
+        case 'js':
+          return result;
+        default:
+          break;
+      }
     default:
       return result;
   }
