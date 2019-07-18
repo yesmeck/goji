@@ -4,7 +4,7 @@
   "description": "![](https://ae01.alicdn.com/kf/HTB1oh4vXaL7gK0jSZFB760ZZpXaF.png)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --passWithNoTests",
     "start": "webpack -w",
     "build": "webpack"
   },
