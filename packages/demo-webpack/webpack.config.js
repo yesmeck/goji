@@ -10,6 +10,7 @@ const target = process.env.TARGET || 'wechat';
 const CSS_FILE_EXT = {
   wechat: 'wxss',
   baidu: 'css',
+  alipay: 'acss',
 }
 
 module.exports = {

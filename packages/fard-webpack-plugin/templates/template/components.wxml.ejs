@@ -4,7 +4,13 @@
   <%# FIXME: this block reduce more than 70% render time with 8k <view> nodes %>
   <block wx:elif="{{type === 'view' && !props.onTap}}">
     <view class="{{props.className}}">
-      <include src="./children<%= depth %>.wxml" />
+      <% if (inlineChildrenRender) {%>
+        <block wx:for="{{children_}}" wx:key="id">
+          <template is="$$REMAX_COMPONENT<%= componentsDepth %>" data="{{ ...item }}" />
+        </block>
+      <% } else { %>
+        <include src="./children<%= depth %>.wxml" />
+      <% } %>
     </view>
   </block>
 
@@ -16,7 +22,13 @@
         <%= attribute.name %>="{{props.<%= attribute.value %>}}"
         <% } %>
       >
-        <include src="./children<%= depth %>.wxml" />
+        <% if (inlineChildrenRender) {%>
+          <block wx:for="{{children_}}" wx:key="id">
+            <template is="$$REMAX_COMPONENT<%= componentsDepth %>" data="{{ ...item }}" />
+          </block>
+        <% } else { %>
+          <include src="./children<%= depth %>.wxml" />
+        <% } %>
       </<%= component.name %>>
     </block>
   <% } %>

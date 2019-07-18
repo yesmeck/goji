@@ -31,13 +31,13 @@ export class Container {
 
   private applyUpdate() {
     this.inQueue = false;
-    const children = pure(this[REMAX_ROOT_VDOM]);
+    const children_ = pure(this[REMAX_ROOT_VDOM]);
 
     const startTime = new Date().getTime();
 
     this.__context.setData(
       {
-        children
+        children_
       },
       () => {
         // @ts-ignore
