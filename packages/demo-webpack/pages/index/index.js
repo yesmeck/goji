@@ -8,7 +8,7 @@ function Counter () {
   const [count, setCount] = useState(0)
   return (
     <view>
-      <text className='text'>{count}</text>
+      <view className='text'>{count}</view>
       <button className='btn' onTap={() => setCount(count + 1)}>
         +
       </button>

@@ -131,6 +131,10 @@ export const hostConfig: HostConfig<
     parent.children.splice(parent.children.indexOf(beforeChild), 0, child);
   },
 
+  insertInContainerBefore(container, child, beforeChild) {
+    container[REMAX_ROOT_VDOM].splice(container[REMAX_ROOT_VDOM].indexOf(beforeChild), 0, child);
+  },
+
   finalizeInitialChildren: () => {
     return false;
   },
