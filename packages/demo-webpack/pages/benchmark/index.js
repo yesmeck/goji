@@ -27,7 +27,7 @@ function Counter () {
       <button onTap={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
       <button onTap={() => setShowText(!showText)}>Show text</button>
       {showArrayDOM && <ArrayDOM count={count} /> }
-      {showText && <text>hello, world!</text>}
+      {showText && <view>hello, world!</view>}
     </Fragment>
   )
 }

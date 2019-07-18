@@ -3,6 +3,21 @@ import pure from './utils/pure';
 import { FiberRoot } from 'react-reconciler';
 import { Instance, TextInstance } from './hostConfig';
 
+const getGlobalVariable = () => {
+  if (typeof wx !== 'undefined') {
+    return wx;
+    // @ts-ignore
+  } else if (typeof swan !== 'undefined') {
+    // @ts-ignore
+    return swan;
+    // @ts-ignore
+  } else if (typeof my !== 'undefined') {
+    // @ts-ignore
+    return my;
+  }
+  return undefined;
+}
+
 export class Container {
   constructor(context) {
     this.__context = context;
@@ -27,7 +42,7 @@ export class Container {
       () => {
         // @ts-ignore
         if (process.env.NODE_ENV !== 'production') {
-          wx.showToast({
+          getGlobalVariable().showToast({
             title: `${new Date().getTime() - startTime}ms`
           })
           console.log(`setData => 回调时间：${new Date().getTime() - startTime}ms`);
