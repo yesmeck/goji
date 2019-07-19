@@ -46,7 +46,14 @@ export const renderTemplate = async (target: Options['target'], pathname: string
         case 'js':
           return result;
         default:
-          break;
+            return result;
+      }
+    case 'toutiao':
+      switch (type) {
+        case 'wxml':
+          return result.replace(/wx:/g, 'tt:').replace(/\.wxml/g, '.axml');
+        default:
+          return result;
       }
     default:
       return result;

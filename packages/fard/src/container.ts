@@ -14,6 +14,10 @@ const getGlobalVariable = () => {
   } else if (typeof my !== 'undefined') {
     // @ts-ignore
     return my;
+    // @ts-ignore
+  } else if (typeof tt !== 'undefined') {
+    // @ts-ignore
+    return tt;
   }
   return undefined;
 }

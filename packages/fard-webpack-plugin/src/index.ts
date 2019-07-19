@@ -67,14 +67,23 @@ class FardWebpackPlugin implements webpack.Plugin {
             return ext;
         }
       case 'alipay':
-          switch (ext) {
-            case 'wxml':
-              return 'axml';
-            case 'wxss':
-              return 'acss';
-            default:
-              return ext;
-          }
+        switch (ext) {
+          case 'wxml':
+            return 'axml';
+          case 'wxss':
+            return 'acss';
+          default:
+            return ext;
+        }
+      case 'toutiao':
+        switch (ext) {
+          case 'wxml':
+            return 'ttml';
+          case 'wxss':
+            return 'ttss';
+          default:
+            return ext;
+        }
       default:
         return ext;
     }
@@ -133,6 +142,7 @@ class FardWebpackPlugin implements webpack.Plugin {
                 depth,
                 componentsDepth: depth + 1,
                 components: this.buildComponentsData(),
+                inlineChildrenRender: false,
               });
               // 生成 bridge.wxml
               compilation.assets[`bridge/children${depth}.${this.transformExt('wxml')}`] = {
@@ -145,7 +155,7 @@ class FardWebpackPlugin implements webpack.Plugin {
                 size: () => componentsWxml.length,
               }
             }
-          } else if (this.options.target === 'baidu' || this.options.target === 'alipay') {
+          } else if (this.options.target === 'baidu' || this.options.target === 'alipay' || this.options.target === 'toutiao') {
             const bridgeWxml = await this.renderTemplate('../templates/template/children.wxml.ejs', {
               depth: 0,
               componentsDepth: 0,

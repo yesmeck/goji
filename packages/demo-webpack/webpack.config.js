@@ -11,6 +11,7 @@ const CSS_FILE_EXT = {
   wechat: 'wxss',
   baidu: 'css',
   alipay: 'acss',
+  toutiao: 'ttss',
 }
 
 module.exports = {
