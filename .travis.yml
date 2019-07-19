@@ -7,3 +7,17 @@ node_js:
 
 cache:
   yarn: true
+
+env:
+  - TARGET=wechat
+  - TARGET=baidu
+  - TARGET=alipay
+  - TARGET=toutiao
+
+install:
+  - yarn install --frozen-lockfile
+  - npx lerna bootstrap
+
+script:
+  - npx lerna run build
+  - npx lerna run test
