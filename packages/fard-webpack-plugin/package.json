@@ -4,8 +4,8 @@
   "description": "Fard webpack plugin",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc --declaration --watch",
-    "build": "tsc --declaration",
+    "start": "tsc -p . --watch",
+    "build": "tsc -p .",
     "test": "jest --passWithNoTests",
     "demo": "(cd demo && webpack)"
   },

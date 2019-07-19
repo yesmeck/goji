@@ -7,8 +7,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "tsc --declaration --watch",
-    "build": "tsc --declaration",
+    "prebuild": "npm run clean",
+    "clean": "rimraf dist",
+    "start": "tsc -p . -watch",
+    "build": "tsc -p .",
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
@@ -18,6 +20,7 @@
     "@types/weixin-app": "^2.2.27",
     "jest": "^24.8.0",
     "react": "^16.8.6",
+    "rimraf": "^2.6.3",
     "typescript": "^3.5.3"
   },
   "dependencies": {
