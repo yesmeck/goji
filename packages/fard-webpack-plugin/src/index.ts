@@ -186,6 +186,14 @@ class FardWebpackPlugin implements webpack.Plugin {
               size: () => itemWxml.length,
             };
           });
+          const itemJson = await this.renderTemplate('../templates/template/item.json.ejs');
+          //生成普通的 json
+          compilation.chunks.forEach((item) => {
+            compilation.assets[`${item.name}.${this.transformExt('json')}`] = {
+              source: () => itemJson,
+              size: () => itemJson.length,
+            };
+          });
           cb()
         })
         break;
