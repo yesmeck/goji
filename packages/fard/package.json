@@ -24,6 +24,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "cssstyle": "^2.0.0",
     "react-reconciler": "^0.20.4",
     "scheduler": "^0.14.0"
   },

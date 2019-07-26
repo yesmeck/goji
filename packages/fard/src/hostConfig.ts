@@ -2,6 +2,7 @@ import * as scheduler from 'scheduler';
 import { REMAX_ROOT_VDOM, REMAX_METHOD, TYPE_TEXT } from './constants';
 import { Container } from './container';
 import { HostConfig } from 'react-reconciler';
+import { stringifyCssText } from './utils/stringifyCssText';
 
 const {
   unstable_scheduleCallback: scheduleDeferredCallback,
@@ -20,6 +21,8 @@ function processProps(newProps: any, rootContext: Container, id: number) {
       // FIXME: memory leak here
       rootContext.registerEventHandler(handlerKey, newProps[propKey]);
       props[propKey] = handlerKey;
+    } else if (propKey === 'style') {
+      props[propKey] = stringifyCssText(newProps[propKey]);
     } else if (propKey === 'children') {
       // pass
     } else {
