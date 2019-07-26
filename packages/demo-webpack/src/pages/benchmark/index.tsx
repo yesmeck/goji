@@ -27,7 +27,12 @@ function Counter () {
       ))}
       {/*
       // @ts-ignore */}
-      <button onTap={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
+      <button
+        onTap={() => setShowArrayDOM(!showArrayDOM)}
+        style={{ fontWeight: "bold" }}
+      >
+        Render array of DOM nodes
+      </button>
       {/*
       // @ts-ignore */}
       <button onTap={() => setShowText(!showText)}>Show text</button>
