@@ -9,9 +9,13 @@ function Counter () {
   return (
     <view>
       <view className='text'>{count}</view>
+      {/*
+      // @ts-ignore */}
       <button className='btn' onTap={() => setCount(count + 1)}>
         +
       </button>
+      {/*
+      // @ts-ignore */}
       <button className='btn' onTap={() => setCount(count - 1)}>
         -
       </button>
