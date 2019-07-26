@@ -20,11 +20,16 @@ function Counter () {
   return (
     <Fragment>
       {[1000, 2000, 4000, 8000].map(c => (
+        // @ts-ignore
         <button class='btn' onTap={() => setCount(c)} key={c}>
           {c}
         </button>
       ))}
+      {/*
+      // @ts-ignore */}
       <button onTap={() => setShowArrayDOM(!showArrayDOM)}>Render array of DOM nodes</button>
+      {/*
+      // @ts-ignore */}
       <button onTap={() => setShowText(!showText)}>Show text</button>
       {showArrayDOM && <ArrayDOM count={count} /> }
       {showText && <view>hello, world!</view>}
