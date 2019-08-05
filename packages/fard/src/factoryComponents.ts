@@ -52,12 +52,37 @@ interface BaseProps {
 interface ViewProps extends BaseProps {}
 
 interface ButtonProps extends BaseProps {
-  disabled: boolean;
-  onInput?: (e: any) => void;
-  onLaunchapp?: (e: any) => void;
-  onError?: (e: any) => void;
+  size?: 'default' | 'mini';
+  type?: 'primary' | 'default' | 'warn';
+  plain?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+  formType?: 'submit' | 'reset';
+  openType?:
+    | 'contact'
+    | 'share'
+    | 'getPhoneNumber'
+    | 'getUserInfo'
+    | 'launchApp'
+    | 'openSetting'
+    | 'feedback';
+  hoverClass?: string;
+  hoverStopPropagation?: boolean;
+  hoverStartTime?: number;
+  hoverStayTime?: number;
+  lang?: 'en' | 'zh_CN' | 'zh_TW';
+  sessionFrom?: string;
+  sendMessageTitle?: string;
+  sendMessagePath?: string;
+  sendMessageImg?: string;
+  appParameter?: string;
+  showMessageCard?: boolean;
   onGetuserinfo?: (e: any) => void;
+  onContact?: (e: any) => void;
   onGetphonenumber?: (e: any) => void;
+  onError?: (e: any) => void;
+  onOpensetting?: (e: any) => void;
+  onLaunchapp?: (e: any) => void;
 }
 
 interface RadioGroupProps extends BaseProps {
