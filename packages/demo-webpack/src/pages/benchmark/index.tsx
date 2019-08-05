@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react'
-import { render, unstable_setBridgreType } from 'fard'
+import { render, unstable_setBridgreType, Button, View } from 'fard'
 import './index.styl'
 
 unstable_setBridgreType('template')
@@ -7,9 +7,9 @@ unstable_setBridgreType('template')
 const ArrayDOM = ({ count }) => {
   const result = [];
   for (let i = 0; i < count; i++) {
-    result.push(<view className="cell" key={i}></view>)
+    result.push(<View className="cell" key={i}></View>)
   }
-  return <view className="wrap">{result}</view>
+  return <View className="wrap">{result}</View>
 }
 
 function Counter () {
@@ -21,23 +21,23 @@ function Counter () {
     <Fragment>
       {[1000, 2000, 4000, 8000].map(c => (
         // @ts-ignore
-        <button class='btn' onTap={() => setCount(c)} key={c}>
+        <Button class='btn' onTap={() => setCount(c)} key={c}>
           {c}
-        </button>
+        </Button>
       ))}
       {/*
       // @ts-ignore */}
-      <button
+      <Button
         onTap={() => setShowArrayDOM(!showArrayDOM)}
         style={{ fontWeight: "bold" }}
       >
         Render array of DOM nodes
-      </button>
+      </Button>
       {/*
       // @ts-ignore */}
-      <button onTap={() => setShowText(!showText)}>Show text</button>
+      <Button onTap={() => setShowText(!showText)}>Show text</Button>
       {showArrayDOM && <ArrayDOM count={count} /> }
-      {showText && <view>hello, world!</view>}
+      {showText && <View>hello, world!</View>}
     </Fragment>
   )
 }
