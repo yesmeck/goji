@@ -6,7 +6,7 @@ import { Container } from './container';
 const ReactReconcilerInst = ReactReconciler(hostConfig);
 
 export function internalRender(rootElement: ReactElement | null, container: Container) {
-  // Create a root Container if it doesnt exist
+  // Create a root Container if it doesn't exist
   if (!container.__rootContainer) {
     container.__rootContainer = ReactReconcilerInst.createContainer(container, false, false);
   }
