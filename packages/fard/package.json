@@ -25,8 +25,7 @@
   },
   "dependencies": {
     "cssstyle": "^2.0.0",
-    "react-reconciler": "^0.20.4",
-    "scheduler": "^0.14.0"
+    "react-reconciler": "^0.20.4"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
