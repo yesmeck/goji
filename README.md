@@ -1,6 +1,12 @@
 # Goji
 
-Work in progress.
+🚧 Work in Progress 🚧
+
+React ❤️ Mini Program
+
+## Visions
+
+Write React code, run as Mini Program.
 
 ## Usage
 
@@ -25,6 +31,9 @@ render(App)
 For more details see [packages/demo-webpack](./packages/demo-webpack).
 
 ## Architecture
+
+![image](https://user-images.githubusercontent.com/1812118/62456261-9f830d00-b7aa-11e9-9d8d-8558bf890620.png)
+
 
 Goji is inspired from [fard](https://github.com/132yse/fard) and [remax](https://github.com/remaxjs/remax).
 
