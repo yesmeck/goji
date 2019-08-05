@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { render, unstable_setBridgreType } from 'fard'
+import { render, unstable_setBridgreType, View, Button } from 'fard'
 import './index.styl'
 
 unstable_setBridgreType('template')
@@ -7,19 +7,19 @@ unstable_setBridgreType('template')
 function Counter () {
   const [count, setCount] = useState(0)
   return (
-    <view>
-      <view className='text'>{count}</view>
+    <View>
+      <View className='text'>{count}</View>
       {/*
       // @ts-ignore */}
-      <button className='btn' onTap={() => setCount(count + 1)}>
+      <Button className='btn' onTap={() => setCount(count + 1)}>
         +
-      </button>
+      </Button>
       {/*
       // @ts-ignore */}
-      <button className='btn' onTap={() => setCount(count - 1)}>
+      <Button className='btn' onTap={() => setCount(count - 1)}>
         -
-      </button>
-    </view>
+      </Button>
+    </View>
   )
 }
 
