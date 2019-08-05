@@ -6,7 +6,18 @@ React ❤️ Mini Program
 
 ## Visions
 
-Write React code, run as Mini Program.
+Write React code, run on Mini Programs.
+
+Support these platforms:
+
+* Wechat
+* Baidu
+* Alipay
+* Toutiao
+* Kuai App ( TBD )
+* Web ( TBD )
+
+> Use `TARGET=alipay` before `yarn start` to test different platforms.
 
 ## Usage
 
