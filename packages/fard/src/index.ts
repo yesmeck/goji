@@ -11,4 +11,4 @@ export const unstable_setBridgreType = (newBridgeType) => {
   bridgeType = newBridgeType
 };
 
-export * from './factoryComponent';
+export * from './factoryComponents';
